@@ -70,6 +70,32 @@
     }
 }
 
+-(void)moveFromIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex withProgressPercentage:(CGFloat)progressPercentage
+{
+    self.selectedOptionIndex = (progressPercentage>0.5)?toIndex:fromIndex;
+    
+    CGRect fromFrame = [self.dataSource collectionView:self cellForItemAtIndexPath:[NSIndexPath indexPathForItem:fromIndex inSection:0]].frame;
+    CGRect toFrame = [self.dataSource collectionView:self cellForItemAtIndexPath:[NSIndexPath indexPathForItem:toIndex inSection:0]].frame;
+    
+    CGRect targetFrame = fromFrame;
+    
+    targetFrame.size.height = self.selectedBar.frame.size.height;
+    targetFrame.size.width += (toFrame.size.width-targetFrame.size.width)*progressPercentage;
+    targetFrame.origin.x += (toFrame.origin.x-targetFrame.origin.x)*progressPercentage;
+    targetFrame.origin.y = toFrame.size.height-targetFrame.size.height;
+    
+    if (fromIndex != toIndex) {
+        if (fromIndex > toIndex) {
+            float xValue = MIN(self.contentSize.width - self.frame.size.width, targetFrame.origin.x <= 35 ? 0 : targetFrame.origin.x - 35);
+            [self setContentOffset:CGPointMake(xValue, 0) animated:YES];
+        } else {
+            float xValue = MAX(0, targetFrame.origin.x + targetFrame.size.width - self.frame.size.width + 35);
+            [self setContentOffset:CGPointMake(xValue, 0) animated:YES];
+        }
+        
+    }
+    self.selectedBar.frame = targetFrame;
+}
 
 -(void)updateSelectedBarPositionWithAnimation:(BOOL)animation swipeDirection:(XLSwipeDirection)swipeDirection
 {

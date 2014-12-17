@@ -60,6 +60,8 @@ typedef NS_ENUM(NSUInteger, XLSwipeDirection) {
 
 -(void)swipeContainerController:(XLSwipeContainerController *)swipeContainerController updateIndicatorToViewController:(UIViewController *)toViewController fromViewController:(UIViewController *)fromViewController;
 
+-(void)swipeContainerController:(XLSwipeContainerController *)swipeContainerController updateIndicatorFromIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex withProgressPercentage:(CGFloat)progressPercentage;
+
 @end
 
 

@@ -98,18 +98,16 @@
 
 #pragma mark - XLSwipeContainerControllerDelegate
 
--(void)swipeContainerController:(XLSwipeContainerController *)swipeContainerController updateIndicatorToViewController:(UIViewController *)viewController fromViewController:(UIViewController *)fromViewController
+-(void)swipeContainerController:(XLSwipeContainerController *)swipeContainerController updateIndicatorFromIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex withProgressPercentage:(CGFloat)progressPercentage
 {
     if (self.shouldUpdateSegmentedControl){
-        NSUInteger newIndex = [self.swipeViewControllers indexOfObject:viewController];
         XLSwipeDirection direction = XLSwipeDirectionLeft;
-        if (newIndex < [self.swipeViewControllers indexOfObject:fromViewController]){
+        if (toIndex < fromIndex){
             direction = XLSwipeDirectionRight;
         }
-        [self.swipeBar moveToIndex:newIndex animated:YES swipeDirection:direction];
+        [self.swipeBar moveFromIndex:fromIndex toIndex:toIndex withProgressPercentage:progressPercentage];
     }
 }
-
 
 
 #pragma merk - UICollectionViewDelegateFlowLayout

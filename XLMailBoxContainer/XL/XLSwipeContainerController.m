@@ -307,6 +307,24 @@
             direction = XLSwipeDirectionRight;
         }
         [self updateContent];
+        
+        if ([self.delegate respondsToSelector:@selector(swipeContainerController:updateIndicatorFromIndex:toIndex:withProgressPercentage:)]){
+            CGFloat scrollPercentage = [self scrollPercentage];
+            if (scrollPercentage > 0) {
+                NSUInteger fromIndex = _currentIndex;
+                NSUInteger toIndex = _currentIndex;
+                CGFloat directionFloat = scrollView.contentOffset.x-(_currentIndex*[self pageWidth]);
+                if (scrollPercentage>0.5f) {
+                    fromIndex += (directionFloat<0)?-1:((directionFloat>0)?1:0);
+                    fromIndex = MIN(fromIndex, [self.swipeViewControllers count]-1);
+                } else {
+                    toIndex += (directionFloat<0)?-1:((directionFloat>0)?1:0);
+                    toIndex = MIN(toIndex, [self.swipeViewControllers count]-1);
+                }
+                
+                [self.delegate swipeContainerController:self updateIndicatorFromIndex:fromIndex toIndex:toIndex withProgressPercentage:scrollPercentage];
+            }
+        }
     }
 }
 

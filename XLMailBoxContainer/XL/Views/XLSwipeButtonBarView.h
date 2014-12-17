@@ -35,8 +35,6 @@
 @property NSUInteger leftRightMargin;
 
 -(void)moveToIndex:(NSUInteger)index animated:(BOOL)animated swipeDirection:(XLSwipeDirection)swipeDirection;
-
-
-
+-(void)moveFromIndex:(NSUInteger)fromIndex toIndex:(NSUInteger)toIndex withProgressPercentage:(CGFloat)progressPercentage;
 
 @end
